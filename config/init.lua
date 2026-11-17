@@ -24,6 +24,20 @@ local function focusOrLaunch(item, showAlert)
     local windows = app:allWindows()
     window = windows and windows[1] or nil
   end
+  if not window then
+    hs.task.new("/usr/bin/open", function()
+      hs.timer.doAfter(0.3, function()
+        local reopened = hs.application.get(item.bundleID)
+        if not reopened then return end
+        reopened:unhide()
+        reopened:activate(true)
+        local reopenedWindow = reopened:mainWindow()
+        if reopenedWindow then reopenedWindow:focus() end
+      end)
+    end, { "-b", item.bundleID }):start()
+    if showAlert ~= false then hs.alert.show("Opening " .. item.name, 0.7) end
+    return nil
+  end
   if window and window:isMinimized() then window:unminimize() end
   app:activate(true)
   if window then window:focus() end

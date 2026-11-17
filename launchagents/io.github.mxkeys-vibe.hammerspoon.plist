@@ -6,11 +6,15 @@
   <string>io.github.mxkeys-vibe.hammerspoon</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/bin/open</string>
-    <string>-gja</string>
-    <string>/Applications/Hammerspoon.app</string>
+		<string>/bin/zsh</string>
+		<string>-c</string>
+		<string>exec "$HOME/.local/bin/mxkeys-vibe-hammerspoon-ensure-running"</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
+	<key>StartInterval</key>
+	<integer>30</integer>
+	<key>ProcessType</key>
+	<string>Background</string>
 </dict>
 </plist>

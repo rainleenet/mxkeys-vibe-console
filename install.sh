@@ -5,6 +5,8 @@ PACKAGE_DIR="$(cd "$(dirname "$0")" && pwd)"
 BACKUP_DIR="$HOME/.mxkeys-vibe-console-backup/$(date +%Y%m%d-%H%M%S)"
 HAMMERSPOON_DIR="$HOME/.hammerspoon"
 LAUNCH_DIR="$HOME/Library/LaunchAgents"
+BIN_DIR="$HOME/.local/bin"
+GUARD="$BIN_DIR/mxkeys-vibe-hammerspoon-ensure-running"
 UID_VALUE="$(id -u)"
 
 if [[ ! -d /Applications/Hammerspoon.app ]]; then
@@ -13,10 +15,11 @@ if [[ ! -d /Applications/Hammerspoon.app ]]; then
   exit 1
 fi
 
-mkdir -p "$BACKUP_DIR" "$HAMMERSPOON_DIR" "$LAUNCH_DIR"
+mkdir -p "$BACKUP_DIR" "$HAMMERSPOON_DIR" "$LAUNCH_DIR" "$BIN_DIR"
 
 for file in \
   "$HAMMERSPOON_DIR/init.lua" \
+  "$GUARD" \
   "$LAUNCH_DIR/io.github.mxkeys-vibe.hammerspoon.plist" \
   "$LAUNCH_DIR/io.github.mxkeys-vibe.keymap.plist"; do
   if [[ -e "$file" ]]; then
@@ -25,6 +28,8 @@ for file in \
 done
 
 cp "$PACKAGE_DIR/config/init.lua" "$HAMMERSPOON_DIR/init.lua"
+cp "$PACKAGE_DIR/bin/hammerspoon-ensure-running" "$GUARD"
+chmod +x "$GUARD"
 cp "$PACKAGE_DIR/launchagents/io.github.mxkeys-vibe.hammerspoon.plist" "$LAUNCH_DIR/"
 cp "$PACKAGE_DIR/launchagents/io.github.mxkeys-vibe.keymap.plist" "$LAUNCH_DIR/"
 

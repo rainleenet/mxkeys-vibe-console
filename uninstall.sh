@@ -4,6 +4,7 @@ set -euo pipefail
 UID_VALUE="$(id -u)"
 LAUNCH_DIR="$HOME/Library/LaunchAgents"
 HAMMERSPOON_DIR="$HOME/.hammerspoon"
+GUARD="$HOME/.local/bin/mxkeys-vibe-hammerspoon-ensure-running"
 BACKUP_DIR="$HOME/.mxkeys-vibe-console-backup/uninstall-$(date +%Y%m%d-%H%M%S)"
 
 mkdir -p "$BACKUP_DIR"
@@ -16,6 +17,7 @@ hidutil property --set '{"UserKeyMapping":[]}' >/dev/null
 
 for file in \
   "$HAMMERSPOON_DIR/init.lua" \
+  "$GUARD" \
   "$LAUNCH_DIR/io.github.mxkeys-vibe.hammerspoon.plist" \
   "$LAUNCH_DIR/io.github.mxkeys-vibe.keymap.plist"; do
   if [[ -e "$file" ]]; then

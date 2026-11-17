@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+set -u
+
+app_binary="/Applications/Hammerspoon.app/Contents/MacOS/Hammerspoon"
+
+if [[ ! -x "$app_binary" ]]; then
+  exit 1
+fi
+
+if /usr/bin/pgrep -x Hammerspoon >/dev/null 2>&1; then
+  exit 0
+fi
+
+/usr/bin/open -gja /Applications/Hammerspoon.app
